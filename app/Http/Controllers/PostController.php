@@ -22,13 +22,15 @@ class PostController extends Controller
             'images.*' => 'required|image|mimes:png,jpg,svg,jpeg,gif|max:2048'
         ]);
 
-        $images = [];
+        $images = []; // arr image declared
+        // Take the name of the image from the arr file and save it under storage.
+        // add the file that declared the arr image with arr.
         foreach ($data['images'] as $image) {
             $fileName = uniqid() . '.' . $image->getClientOriginalExtension();
             $image_path =  $image->storeAs('images', $fileName, 'public');
             array_push($images, $image_path);
         }
-        
+        //add the array list of the images to request data from the server
         $data['images'] = $images;
         post::create($data);
         return redirect()->back();
